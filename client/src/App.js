@@ -30,22 +30,31 @@ class App extends Component {
 
     this.socket.on('offerOrAnswer', (sdp)=>{
       this.textref.value = JSON.stringify(sdp)
+
+    this.pc.setRemoteDescription(new RTCSessionDescription(sdp))
+
     })
 
     this.socket.on('candidate',(candidate) =>{
-      this.candidate = [...this.candidate, candidate]
-    })
-    const pc_config = null
+      // this.candidate = [...this.candidate, candidate]
 
-    // const pc_config1 = {
-    //   "iceServers": [
-    //     {
-    //       urls: 'stun:[STUN_IP]:[PORT]',
-    //       'credentials': '[YOR CREDENTIALS]',
-    //       'username': '[USERNAME]'
-    //     }
-    //   ]
-    // }
+      this.pc.addIceCandidate(new RTCIceCandidate(candidate))
+
+    })
+    // const pc_config = null
+
+    const pc_config = {
+      "iceServers": [
+        // {
+        //   urls: 'stun:[STUN_IP]:[PORT]',
+        //   'credentials': '[YOR CREDENTIALS]',
+        //   'username': '[USERNAME]'
+        // }
+        {
+          urls: 'stun:stun.l.google.com:19302'
+        }
+      ]
+    }
 
     // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection
     // create an instance of RTCPeerConnection
@@ -200,9 +209,9 @@ class App extends Component {
         <br />
         <textarea ref={ref => { this.textref = ref }} />
 
-        <br />
+        {/* <br />
         <button onClick={this.setRemoteDescription}>Set Remote Desc</button>
-        <button onClick={this.addCandidate}>Add Candidate</button>
+        <button onClick={this.addCandidate}>Add Candidate</button> */}
       </div>
     )
   }
