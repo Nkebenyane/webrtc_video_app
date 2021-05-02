@@ -19,7 +19,7 @@ app.get('/', (req, res, next) => {
 
 app.get('/', (req, res) => res.send('Hello World!!!!!'))
 
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+const server = app.listen(port, () => console.log(`Server listening on port ${port}!`))
 
 io.listen(server)
 
@@ -37,6 +37,7 @@ peers.on('connection', socket => {
     connectedPeers.delete(socket.id)
   })
 
+  
   socket.on('offerOrAnswer', (data) => {
     // send to the other peer(s) if any
     for (const [socketID, socket] of connectedPeers.entries()) {
