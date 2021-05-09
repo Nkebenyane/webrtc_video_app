@@ -30,11 +30,15 @@ class App extends Component {
 
     this.socket.on('offerOrAnswer', (sdp) => {
       this.textref.value = JSON.stringify(sdp)
+
       this.pc.setRemoteDescription(new RTCSessionDescription(sdp))
+
     })
 
     this.socket.on('candidate', (candidate) => {
+
       this.pc.addIceCandidate(new RTCIceCandidate(candidate))
+
     })
 
     // STUN SERVER
@@ -50,6 +54,7 @@ class App extends Component {
 
     this.pc.onicecandidate = (e) => {
       if (e.candidate)
+        // console.log(JSON.stringify(e.candidate))
         this.sendToPeer('candidate', e.candidate)
     }
 

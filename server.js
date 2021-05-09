@@ -1,12 +1,12 @@
-  
+
 const express = require('express')
 const app = express()
-const port = 8080
+const port = 5000
 
 var io = require('socket.io')
-({
-  path: '/webrtc'
-})
+  ({
+    path: '/webrtc'
+  })
 
 // keep a reference of all socket connections
 let connectedPeers = new Map()
@@ -14,10 +14,10 @@ let connectedPeers = new Map()
 //https://expressjs.com/en/guide/writing-middleware.html
 app.use(express.static(__dirname + '/client/build'))
 app.get('/', (req, res, next) => {
-    res.sendFile(__dirname + '/client/build/index.html')
+  res.sendFile(__dirname + '/client/build/index.html')
 })
 
-app.get('/', (req, res) => res.send('Hello World!!!!!'))
+// app.get('/', (req, res) => res.send('Hello World!!!!!'))
 
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`))
 
@@ -37,7 +37,7 @@ peers.on('connection', socket => {
     connectedPeers.delete(socket.id)
   })
 
-  
+
   socket.on('offerOrAnswer', (data) => {
     // send to the other peer(s) if any
     for (const [socketID, socket] of connectedPeers.entries()) {
